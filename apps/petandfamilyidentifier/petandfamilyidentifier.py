@@ -15,6 +15,7 @@ import pandas as pd
 from fastai.callback.wandb import *
 set_seed(7)
 from utils import get_unique_file
+import platform
 
 def petandfamilyidentifier_get_x(r): return path/r['fname']
 
@@ -30,7 +31,10 @@ def show_example(image_path, container, learn):
             st.markdown(f'**{pred[i].capitalize()}** with a probability of: **{probs[pred_idx][i]*100:.00f}%**')
 
 def app():
-    learn = load_learner(get_unique_file('petandfamilyidentifier_linux_v4.pkl'), cpu=True)
+    if platform.system() == 'Windows':
+        learn = load_learner(get_unique_file('petandfamilyidentifier_windows_v4.pkl'), cpu=True)
+    else:
+        learn = load_learner(get_unique_file('petandfamilyidentifier_linux_v4.pkl'), cpu=True)
     # #st.set_page_config(layout="wide")
     st.title('Pet and Family identifier V2')
     st.header('Summary')
